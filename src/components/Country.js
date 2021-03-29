@@ -1,15 +1,13 @@
 import React from 'react'
 
-const Country = ({allCountries,handleSelectedCounter}) => {
+const Country = ({allCountries,handleSelectedCounter,country}) => {
     if(allCountries)
-    return <select className="country" onClick={handleSelectedCounter}>
+    return <select value={country} className="country" onChange={handleSelectedCounter}>
              <option value="">Global</option>
               {allCountries.map((country)=> <option key={country.name} value={country.name}>{country.name}</option>)}
             </select>
 else
-return "Loading..."
-    
-    
+return "Loading..."  
 }
 
 export default Country

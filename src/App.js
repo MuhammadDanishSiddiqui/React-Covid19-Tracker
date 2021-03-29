@@ -14,7 +14,6 @@ const [recovered,setRecovered] =useState()
 const [deaths,setDeaths]=useState()
 const [lastUpdated,setLastUpdated]=useState()
 const [isloading,setIsloading]=useState(true)
-const [count,setCount]=useState(0)
 useEffect(()=>{
   async function fetchApi(country){
     try{
@@ -30,11 +29,11 @@ useEffect(()=>{
       setIsloading(false)
     }
     else{
+    fetchApiCountry()
     const response= await fetch("https://covid19.mathdro.id/api")
     const data = await response.json()
     if(response.status!==200)
     throw new Error()
-    console.log(data)
     setInfected(data.confirmed.value)
     setRecovered(data.recovered.value)
     setDeaths(data.deaths.value)
@@ -49,10 +48,8 @@ alert("Some thing went wrong...")
 
   async function fetchApiCountry(){
     try{
-    setCount(1)
     const response= await fetch("https://covid19.mathdro.id/api/countries")
     const data = await response.json()
-    console.log(data.countries)
     setAllcountries(data.countries)
     }
     catch{
@@ -61,7 +58,6 @@ alert("Some thing went wrong...")
     
   }
  fetchApi(country)
- if(count===0)fetchApiCountry()
 
 },[country])
 
@@ -70,7 +66,7 @@ function handleSelectedCounter(e){
 }
   return<>
   <Header/>
-  <Country allCountries={allCountries} handleSelectedCounter={handleSelectedCounter}/>
+  <Country country={country} allCountries={allCountries} handleSelectedCounter={handleSelectedCounter}/>
   <Cards lastUpdated={lastUpdated} isloading={isloading} infected={infected} recovered={recovered} deaths={deaths} />
   <Chart isloading={isloading} infected={infected} recovered={recovered} deaths={deaths} />
 
